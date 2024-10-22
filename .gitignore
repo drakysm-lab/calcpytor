@@ -1,0 +1,4 @@
+# python misc
+.venv/
+__pycache__/
+
