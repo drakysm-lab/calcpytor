@@ -7,6 +7,7 @@ Core application frame. Initializes the window and its widgets.
 
 import tkinter
 from . import display
+from . import math
 
 
 class App(tkinter.Tk):
@@ -31,15 +32,7 @@ class App(tkinter.Tk):
         self.configure(bg=self.color_frame_bg)
 
         # Widgets
-        #self.display = tkinter.Text(self, font=self.display_font, 
-        #                            bg=self.color_frame_bg, 
-        #                            foreground=self.color_frane_fg, height=3, 
-        #                            width=20)
-        
-        #self.display['state'] = tkinter.DISABLED
-        #self.display.grid(row=0, columnspan=4)
         self.display_ = display.Display(self)
-        
         self.create_widgets()
     
     def create_widgets(self):
@@ -50,21 +43,21 @@ class App(tkinter.Tk):
         # buttons
         # row 1
         self.add_button(self, title="%", row=1, column=0, 
-                        command="")
+                        command="")                                     # %
         self.add_button(self, title="CE", row=1, column=1, 
-                        command=lambda: self.display_.clear())
+                        command=lambda: self.display_.clear_frame())    # CE
         self.add_button(self, title="C", row=1, column=2, 
-                        command=lambda: self.display_.clear())
+                        command=lambda: self.display_.clear_frame())    # C
         self.add_button(self, title="<x:", row=1, column=3, 
-                        command=lambda: self.display_.delete_char())
+                        command=lambda: self.display_.delete_char())    # <x:
         
         # another rows
         self.create_buttons(("7", "8", "9", "*"), 2)        # row 2
-        self.create_buttons(("4", "5", "6", "—"), 3)        # row 3
+        self.create_buttons(("4", "5", "6", "-"), 3)        # row 3
         self.create_buttons(("1", "2", "3", "+"), 4)        # row 4
         self.create_buttons(("+/-", "0", ","), 5)           # row 5
         self.add_button(self, title="=", row=5, column=3, 
-                        command=lambda: print("math time!"))   # equal button
+                        command=lambda: self.equals_btn())  # equals button
 
     def create_buttons(self, _names: tuple, _row: int):
         """
@@ -84,7 +77,7 @@ class App(tkinter.Tk):
         
         _title = kwargs.get("title", "???")
         _width = kwargs.get("width", 7)
-        _command = kwargs.get("command", lambda: self.display_.update(_title))
+        _command = kwargs.get("command", lambda: self.display_.update_string(_title))
         _row = kwargs.get("row", 0)
         _column = kwargs.get("column", 0)
 
@@ -94,6 +87,16 @@ class App(tkinter.Tk):
                               bg=self.color_btn_bg, 
                               foreground=self.color_btn_fg, height=2)
         _btn.grid(row=_row, column=_column)
+
+    def equals_btn(self):
+        """
+        Send the expression to the module containing the Math class.
+        """
+        
+        _expression = self.display_.frame.get("1.0", "end-1c")
+        math_ = math.Math(self.display_)
+
+        math_.calc(_expression)
 
 
 def start():

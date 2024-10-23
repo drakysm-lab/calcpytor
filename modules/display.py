@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # _*_ coding: utf8 _*_
 
 """
@@ -9,44 +8,44 @@ import tkinter
 
 
 class Display:
-    def __init__(self, frame: tkinter.Tk):
+    def __init__(self, root: tkinter.Tk):
         """
-        Setup a tkinter.Text object to make a string display for App class.
+        Setup a tkinter.Text object to make a string frame for App class.
         """
         
-        self.display = tkinter.Text(frame, font=frame.display_font, 
-                                    bg=frame.color_frame_bg, 
-                                    foreground=frame.color_frame_fg, height=3, 
+        self.frame = tkinter.Text(root, font=root.display_font, 
+                                    bg=root.color_frame_bg, 
+                                    foreground=root.color_frame_fg, height=3, 
                                     width=20)
         
-        self.display['state'] = tkinter.DISABLED
-        self.display.grid(row=0, columnspan=4)
+        self.frame['state'] = tkinter.DISABLED
+        self.frame.grid(row=0, columnspan=4)
 
-    def update(self, _title):
+    def update_string(self, _title):
         """
         Change the label from the last one char.
         """
         
-        self.display['state'] = tkinter.NORMAL
-        self.display.insert("end-1c", _title)
-        self.display['state'] = tkinter.DISABLED
+        self.frame['state'] = tkinter.NORMAL
+        self.frame.insert("end-1c", _title)
+        self.frame['state'] = tkinter.DISABLED
 
-        self.display.update()
+        self.frame.update()
 
-    def clear(self):
+    def clear_frame(self):
         """
-        Fully clear the string of the display.
+        Fully clear the string of the frame.
         """
         
-        self.display['state'] = tkinter.NORMAL
-        self.display.replace("1.0", "end-1c", "")
-        self.display['state'] = tkinter.DISABLED
+        self.frame['state'] = tkinter.NORMAL
+        self.frame.replace("1.0", "end-1c", "")
+        self.frame['state'] = tkinter.DISABLED
 
     def delete_char(self):
         """
         Clear the string char by char.
         """
         
-        self.display['state'] = tkinter.NORMAL
-        self.display.replace("end-2c", "end-1c", "")
-        self.display['state'] = tkinter.DISABLED
+        self.frame['state'] = tkinter.NORMAL
+        self.frame.replace("end-2c", "end-1c", "")
+        self.frame['state'] = tkinter.DISABLED
